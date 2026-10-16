@@ -7,7 +7,7 @@
     "build": "node tools/prepare-assets.cjs && hexo clean && hexo generate",
     "dev": "node tools/prepare-assets.cjs && hexo server --ip 127.0.0.1 --port 4000",
     "new": "hexo new",
-    "test:tags": "node --test tests/tag-graph.test.cjs",
+    "test:tags": "node --test tests/*.test.cjs",
     "clean": "hexo clean"
   },
   "engines": {

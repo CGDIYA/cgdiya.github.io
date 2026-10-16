@@ -33,12 +33,18 @@
 .tg-node { color: var(--tg-accent); cursor: pointer; outline: none; transition: opacity .2s; }
 .tg-node circle.tg-node-halo { fill: var(--tg-accent); opacity: .07; transition: opacity .2s; }
 .tg-node circle.tg-node-dot { fill: var(--tg-accent); stroke: var(--tg-panel); stroke-width: 2.8; }
-.tg-node text { fill: var(--tg-ink); font-family: inherit; font-weight: 500; paint-order: stroke; stroke: var(--tg-soft); stroke-width: 5px; stroke-linejoin: round; }
+.tg-node text { fill: var(--tg-ink); font-family: inherit; font-weight: 500; paint-order: stroke; stroke: var(--tg-soft); stroke-width: 5px; stroke-linejoin: round; transition: opacity .18s, fill .18s; }
+.tg-node.is-label-hidden text { opacity: 0; pointer-events: none; }
+.tg-node.is-related circle.tg-node-dot { fill: #2875c9; stroke: var(--tg-accent); stroke-width: 2; }
+.tg-node.is-related circle.tg-node-halo { opacity: .18; }
+.tg-node.is-current circle.tg-node-halo { opacity: .29; }
+.tg-node.is-related text { fill: var(--tg-accent); font-weight: 650; }
+[data-theme="dark"] .tg-node.is-related circle.tg-node-dot { fill: #c5e1ff; }
 .tg-node:hover circle.tg-node-halo, .tg-node:focus circle.tg-node-halo { opacity: .19; }
 .tg-node:hover text, .tg-node:focus text { fill: var(--tg-accent); font-weight: 650; }
 .tg-node:focus-visible circle.tg-node-halo { stroke: var(--tg-accent); stroke-width: 1.3; stroke-dasharray: 3 3; }
 .tg-node-visual { animation: tg-drift 5s ease-in-out infinite; }
-.tg-node:hover .tg-node-visual, .tg-node:focus .tg-node-visual, .is-dragging .tg-node-visual { animation-play-state: paused; }
+.tg-node:hover .tg-node-visual, .tg-node:focus .tg-node-visual, .is-dragging .tg-node-visual, .is-settling .tg-node-visual { animation-play-state: paused; }
 .tg-node.is-muted, .tg-edge.is-muted { opacity: .07; pointer-events: none; }
 .tg-graph-footer { display: flex; align-items: center; gap: 12px; justify-content: space-between; padding: 0 17px 12px; }
 #article-container #tg-hint { font-size: 11px; color: var(--tg-muted); line-height: 1.7; max-width: 60%; }

@@ -6,6 +6,7 @@
   if (!dataElement) return;
   const { nodes, edges } = JSON.parse(dataElement.textContent);
   if (!nodes.length) return;
+  const { shouldShowLabel, createSpringSystem } = window.TagGraphMotion;
 
   const svg = root.querySelector('#tg-graph');
   const viewport = root.querySelector('#tg-viewport');
@@ -60,6 +61,8 @@
   let width = 800, height = 370, zoom = 1, panX = 0, panY = 0;
   let positions = [], matching = new Set(nodes.map(node => node.id));
   let sort = 'name', drag = null, suppressClick = false;
+  let activeNode = null, motion = null, motionFrame = null, lastFrame = 0, motionSteps = 0;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const components = [];
   const visited = new Set();
   for (const node of nodes) {
@@ -77,6 +80,7 @@
   }
 
   function layout() {
+    stopMotion();
     const columns = width > 600 ? Math.min(3, components.length) : 1;
     const rows = Math.ceil(components.length / columns);
     const cellWidth = Math.min(340, (width - 90) / columns);
@@ -112,7 +116,39 @@
       });
       positions.forEach((point, id) => { point.x += delta[id].x; point.y += delta[id].y; });
     }
+    motion = createSpringSystem(positions, edges);
     fit();
+  }
+
+  function stopMotion() {
+    if (motionFrame !== null) cancelAnimationFrame(motionFrame);
+    motionFrame = null;
+    lastFrame = 0;
+    viewport.classList.remove('is-settling');
+  }
+
+  function wakeMotion() {
+    if (!motion || document.hidden) return;
+    motionSteps = 0;
+    const pinned = drag && drag.moved ? drag.id : null;
+    if (reduceMotion.matches) {
+      for (let i = 0; i < 80; i++) { if (!motion.step(pinned)) break; }
+      draw();
+      return;
+    }
+    if (motionFrame !== null) return;
+    viewport.classList.add('is-settling');
+    function tick(time) {
+      const steps = lastFrame ? Math.min(3, Math.max(1, Math.round((time - lastFrame) / 16.67))) : 1;
+      lastFrame = time;
+      let moving = false;
+      for (let i = 0; i < steps; i++) moving = motion.step(drag && drag.moved ? drag.id : null) || moving;
+      draw();
+      motionSteps += steps;
+      if (moving && motionSteps < 360) motionFrame = requestAnimationFrame(tick);
+      else { motionFrame = null; lastFrame = 0; viewport.classList.remove('is-settling'); }
+    }
+    motionFrame = requestAnimationFrame(tick);
   }
 
   function fit() {
@@ -138,6 +174,18 @@
     root.querySelector('#tg-zoom').value = `${Math.round(zoom * 100)}%`;
     root.querySelector('[data-tg-action="out"]').disabled = zoom <= .201;
     root.querySelector('[data-tg-action="in"]').disabled = zoom >= 2.399;
+    updateLabels();
+  }
+
+  function updateLabels() {
+    const searching = query.value.trim().length > 0;
+    nodeElements.forEach((el, id) => {
+      const highlighted = activeNode !== null && (id === activeNode || neighborMap[activeNode].has(id));
+      const show = shouldShowLabel(nodes[id].count, sizes[id], zoom, highlighted, searching && matching.has(id));
+      el.classList.toggle('is-label-hidden', !show);
+      const fontSize = 14 + (sizes[id] - 8) * .32;
+      el.querySelector('text').setAttribute('font-size', fontSize / (show ? Math.min(1, zoom) : 1));
+    });
   }
 
   function zoomAt(factor, x = width / 2, y = height / 2) {
@@ -151,10 +199,13 @@
   }
 
   function focusNode(id = null) {
+    activeNode = id;
     nodeElements.forEach((el, index) => {
       const visible = matching.has(index);
       const related = id === null || index === id || neighborMap[id].has(index);
       el.classList.toggle('is-muted', !visible || !related);
+      el.classList.toggle('is-related', visible && id !== null && related);
+      el.classList.toggle('is-current', visible && id === index);
       el.setAttribute('tabindex', visible ? '0' : '-1');
       el.setAttribute('aria-hidden', String(!visible));
     });
@@ -165,6 +216,7 @@
       el.classList.toggle('is-active', id !== null && related);
     });
     hint.textContent = !matching.size ? '没有匹配的标签，请换个关键词。' : id === null ? '点击标签阅读文章，悬停查看关联。' : `${nodes[id].name} · ${nodes[id].count} 篇文章 · 关联 ${neighborMap[id].size} 个标签`;
+    updateLabels();
   }
   nodeElements.forEach((el, id) => {
     el.addEventListener('mouseenter', () => { if (!drag) focusNode(id); });
@@ -219,19 +271,26 @@
       viewport.classList.add('is-dragging');
     }
     if (drag.id === null) { panX += dx; panY += dy; }
-    else { positions[drag.id].x += dx / zoom; positions[drag.id].y += dy / zoom; }
+    else {
+      positions[drag.id].x += dx / zoom;
+      positions[drag.id].y += dy / zoom;
+      focusNode(drag.id);
+      wakeMotion();
+    }
     drag.x = event.clientX; drag.y = event.clientY;
     draw();
     event.preventDefault();
   });
   function endDrag(event) {
     if (!drag || drag.pointer !== event.pointerId) return;
+    const nodeMoved = drag.moved && drag.id !== null;
     suppressClick = drag.moved;
     if (suppressClick) setTimeout(() => { suppressClick = false; }, 0);
     drag = null;
     viewport.classList.remove('is-dragging');
     if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
     focusNode();
+    if (nodeMoved) wakeMotion();
   }
   viewport.addEventListener('pointerup', endDrag);
   viewport.addEventListener('pointercancel', endDrag);
@@ -240,7 +299,14 @@
   window.addEventListener('blur', () => {
     drag = null;
     viewport.classList.remove('is-dragging');
+    focusNode();
+    wakeMotion();
   });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopMotion();
+    else wakeMotion();
+  });
+  window.addEventListener('pagehide', stopMotion);
   viewport.addEventListener('click', event => {
     if (suppressClick) { event.preventDefault(); event.stopPropagation(); suppressClick = false; }
   }, true);

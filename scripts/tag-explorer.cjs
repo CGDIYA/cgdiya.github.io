@@ -1,4 +1,11 @@
 const { buildTagGraph } = require('../tools/tag-graph.cjs');
+const fs = require('node:fs');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const assetVersion = crypto.createHash('sha256').update(
+  ['css/tag-explorer.css', 'js/tag-graph-motion.js', 'js/tag-explorer.js']
+    .map(file => fs.readFileSync(path.join(__dirname, '../source', file))).join('\n')
+).digest('hex').slice(0, 10);
 
 const escape = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -49,7 +56,7 @@ hexo.extend.generator.register('tag-explorer', function (locals) {
               <button type="button" class="tg-reset" data-tg-action="reset" aria-label="重置标签图布局">重置</button>
             </div>
           </div>
-          <p class="tg-help"><span class="tg-desktop-help">拖动空白处平移 · 滚轮缩放 · 拖动节点调整位置</span><span class="tg-mobile-help">点击标签阅读 · 用 ＋ / − 调整视图 · 空白处可上下滑动页面</span></p>
+          <p class="tg-help"><span class="tg-desktop-help">拖动节点牵引邻居 · 放大显示更多名称 · 悬停高亮关联</span><span class="tg-mobile-help">点击标签阅读 · 用 ＋ / − 放大查看名称 · 空白处可上下滑动页面</span></p>
         </div>
         <div class="tg-directory-heading"><h2 id="tg-directory-title">标签目录</h2>
           <div class="tg-sort" data-tg-enhanced hidden role="group" aria-label="标签排序">
@@ -60,8 +67,9 @@ hexo.extend.generator.register('tag-explorer', function (locals) {
         <p class="tg-empty" id="tg-empty" ${graph.nodes.length ? 'hidden' : ''}>${graph.nodes.length ? '没有找到匹配的标签，试试其他关键词。' : '还没有标签。给第一篇文章添加标签，它们就会出现在这里。'}</p>
         <p class="tg-data-note">关系来自真实文章中的标签共现，随每次发布自动更新。</p>
         <script type="application/json" id="tg-data">${json}</script>
-        <link rel="stylesheet" href="/css/tag-explorer.css">
-        <script src="/js/tag-explorer.js" defer></script>
+        <link rel="stylesheet" href="/css/tag-explorer.css?v=${assetVersion}">
+        <script src="/js/tag-graph-motion.js?v=${assetVersion}" defer></script>
+        <script src="/js/tag-explorer.js?v=${assetVersion}" defer></script>
       </section>`
     }
   };

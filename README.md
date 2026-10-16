@@ -79,6 +79,8 @@ GitHub Actions 自动构建并发布 `public/`。到仓库的 Actions 页面查�
 
 相关文件：`tools/tag-graph.cjs` 处理真实数据，`source/js/tag-explorer.js` 负责交互，`source/css/tag-explorer.css` 负责样式。无 JavaScript 时仍可通过目录访问标签文章。`pnpm test:tags` 可验证共现统计与草稿过滤规则。
 
+拖动一个节点会弹性牵引同组的关联节点，松手后逐渐稳定。小节点的名称随缩放显示，单篇文章的标签默认在 150% 起显示；悬停、键盘聚焦或搜索匹配时可提前查看名称。悬停时突出当前节点、直接邻居和相连边。
+
 ## 版权
 
 Hexo 与 Butterfly 分别遵循其上游许可证，页脚保留框架和主题署名。本站新建 SVG 图片为本项目原创。默认文章版权声明为 CC BY-NC-SA 4.0，可在主题配置中按需要修改；该声明不改变第三方素材的许可。
