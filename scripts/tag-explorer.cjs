@@ -45,7 +45,9 @@ hexo.extend.generator.register('tag-explorer', function (locals) {
             <span class="tg-sr-only">搜索标签</span><input id="tg-query" type="search" placeholder="寻找一个标签…" autocomplete="off" aria-controls="tg-directory tg-graph"></label>
           <span class="tg-result-count" id="tg-result-count" role="status" aria-live="polite">${graph.nodes.length} / ${graph.nodes.length} 个标签</span>
         </div>
-        <div class="tg-graph-panel" data-tg-enhanced hidden>
+        <details id="tg-graph-details" class="tg-graph-disclosure" data-tg-enhanced hidden>
+          <summary class="tg-graph-toggle"><span class="tg-expand-label">展开关系图</span><span class="tg-collapse-label">收起关系图</span><span aria-hidden="true">⌄</span></summary>
+        <div class="tg-graph-panel">
           <div class="tg-graph-heading"><span><i aria-hidden="true"></i> 标签之间的联系</span><span class="tg-legend">节点大小 · 文章数量<span aria-hidden="true"> / </span>连线 · 同篇文章</span></div>
           <div id="tg-viewport" class="tg-viewport" tabindex="0" role="group" aria-label="标签关系图。电脑可拖动、滚轮缩放，方向键平移，加减号缩放，按 0 重置。手机可点击标签并使用下方缩放按钮。">
             <svg id="tg-graph" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="按共同文章连接的标签"><g class="tg-world"><g class="tg-edges"></g><g class="tg-nodes"></g></g></svg>
@@ -58,6 +60,7 @@ hexo.extend.generator.register('tag-explorer', function (locals) {
           </div>
           <p class="tg-help"><span class="tg-desktop-help">拖动节点牵引邻居 · 放大显示更多名称 · 悬停高亮关联</span><span class="tg-mobile-help">点击标签阅读 · 用 ＋ / − 放大查看名称 · 空白处可上下滑动页面</span></p>
         </div>
+        </details>
         <div class="tg-directory-heading"><h2 id="tg-directory-title">标签目录</h2>
           <div class="tg-sort" data-tg-enhanced hidden role="group" aria-label="标签排序">
             <button type="button" data-sort="name" aria-pressed="true">名称</button><button type="button" data-sort="newest" aria-pressed="false">最新</button><button type="button" data-sort="oldest" aria-pressed="false">最早</button>

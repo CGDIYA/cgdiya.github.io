@@ -12,13 +12,17 @@
 .tg-stats strong { font-size: 24px; font-weight: 500; color: var(--tg-accent); }
 .tg-stats i { width: 1px; height: 17px; background: var(--tg-line); margin: 0 8px; }
 .tg-search-row { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
-.tg-search { display: flex; align-items: center; gap: 10px; max-width: 390px; flex: 1; border: 1px solid var(--tg-line); background: var(--tg-soft); border-radius: 11px; padding: 9px 13px; transition: border-color .2s, box-shadow .2s; }
+.tg-search { display: flex; align-items: center; gap: 10px; max-width: 390px; min-width: 0; flex: 1; border: 1px solid var(--tg-line); background: var(--tg-soft); border-radius: 11px; padding: 9px 13px; transition: border-color .2s, box-shadow .2s; }
 .tg-search:focus-within { border-color: var(--tg-accent); box-shadow: 0 0 0 3px rgb(75 130 195 / 10%); }
 .tg-search svg { width: 18px; height: 18px; stroke: var(--tg-accent); fill: none; stroke-width: 1.7; flex-shrink: 0; }
-#article-container .tg-search input { color: var(--tg-ink); font: inherit; font-size: 13px; width: 100%; border: 0; outline: 0; background: transparent; line-height: 1.8; }
+#article-container .tg-search input { color: var(--tg-ink); font: inherit; font-size: 13px; width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; line-height: 1.8; }
 .tg-search input::placeholder { color: var(--tg-muted); }
 .tg-result-count { font-size: 11px; color: var(--tg-muted); margin-left: auto; white-space: nowrap; }
 .tg-graph-panel { border: 1px solid var(--tg-line); border-radius: 15px; overflow: hidden; background: var(--tg-soft); }
+.tg-graph-toggle { display: none; }
+.tg-collapse-label { display: none; }
+.tg-graph-disclosure[open] .tg-expand-label { display: none; }
+.tg-graph-disclosure[open] .tg-collapse-label { display: inline; }
 .tg-graph-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 17px 19px 0; font-size: 12px; color: var(--tg-ink); }
 .tg-graph-heading > span:first-child { display: flex; align-items: center; gap: 7px; }
 .tg-graph-heading i { width: 6px; height: 6px; background: var(--tg-accent); border-radius: 50%; box-shadow: 0 0 0 4px rgb(75 130 195 / 8%); }
@@ -77,6 +81,33 @@
 [data-theme="dark"] .tag-explorer { --tg-accent: #88b4e6; --tg-ink: #d5dfed; --tg-muted: #8c9bb0; --tg-line: #303e52; --tg-soft: #1e2938; --tg-panel: #222c3b; }
 [data-theme="dark"] .tg-edge { stroke: #55799f; }
 @keyframes tg-drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@media (max-width: 768px) {
+  .tag-explorer { display: flex; flex-direction: column; }
+  .tg-heading { order: 0; }
+  .tg-search-row { order: 1; }
+  .tg-directory-heading { order: 2; margin-top: 4px; }
+  #article-container .tg-directory { order: 3; }
+  #tg-empty { order: 4; }
+  .tg-graph-disclosure { order: 5; margin-top: 22px; }
+  .tg-data-note { order: 6; }
+  .tg-graph-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    min-height: 48px; padding: 10px 15px; border: 1px solid var(--tg-line);
+    border-radius: 11px; background: var(--tg-soft); color: var(--tg-accent);
+    font-size: 14px; font-weight: 550; cursor: pointer; list-style: none;
+  }
+  .tg-graph-toggle::-webkit-details-marker { display: none; }
+  .tg-graph-toggle:focus-visible { outline: 2px solid var(--tg-accent); outline-offset: 3px; }
+  .tg-graph-disclosure[open] .tg-graph-toggle { margin-bottom: 12px; }
+  .tg-graph-disclosure[open] .tg-graph-toggle > span:last-child { transform: rotate(180deg); }
+  #article-container .tg-search input { font-size: 16px; min-height: 28px; }
+  .tg-sort button { min-height: 44px; min-width: 44px; font-size: 12px; }
+  .tg-graph-footer { flex-direction: column; align-items: stretch; gap: 10px; }
+  #article-container #tg-hint { max-width: none; font-size: 12px; }
+  .tg-controls { align-self: flex-end; }
+  .tg-controls button { min-width: 44px; height: 44px; }
+  #article-container .tg-help { font-size: 12px; }
+}
 @media (max-width: 600px) {
   .tg-heading { display: block; padding-bottom: 22px; }
   #article-container .tag-explorer h1 { font-size: 23px; }
@@ -88,24 +119,21 @@
   .tg-legend { font-size: 9px; }
   .tg-legend > span { padding: 0 2px; }
   .tg-viewport { height: 300px; }
-  .tg-graph-footer { align-items: flex-start; padding: 0 11px 10px; gap: 7px; }
-  #article-container #tg-hint { max-width: 47%; font-size: 10px; }
-  .tg-controls button { min-width: 30px; height: 32px; }
+  .tg-graph-footer { padding: 0 11px 10px; }
   .tg-controls output { min-width: 34px; }
   .tg-desktop-help { display: none; }
   .tg-mobile-help { display: inline; }
   #article-container .tg-directory { gap: 9px; }
   #article-container .tg-card { grid-template-columns: 1fr; padding: 12px; gap: 5px; }
   .tg-card-count { justify-self: start; grid-row: 2; }
-  .tg-card-name { font-size: 13px; }
-  .tg-card-date { font-size: 9px; }
+  .tg-card-name { font-size: 15px; }
+  .tg-card-date { font-size: 11px; }
 }
 @media (max-width: 380px) {
   .tg-graph-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
   .tg-graph-footer { flex-direction: column; align-items: stretch; gap: 9px; }
   #article-container #tg-hint { max-width: none; }
   .tg-controls { align-self: flex-end; }
-  .tg-controls button { min-width: 42px; height: 42px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .tg-node-visual { animation: none; }

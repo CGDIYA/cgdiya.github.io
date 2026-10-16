@@ -326,6 +326,17 @@
     if (handled) event.preventDefault();
   });
 
+  const graphDetails = root.querySelector('#tg-graph-details');
+  const mobileLayout = matchMedia('(max-width: 768px)');
+  function syncGraphDisclosure() {
+    graphDetails.open = !mobileLayout.matches;
+    if (!graphDetails.open) stopMotion();
+  }
+  syncGraphDisclosure();
+  mobileLayout.addEventListener('change', syncGraphDisclosure);
+  graphDetails.addEventListener('toggle', () => {
+    if (!graphDetails.open) stopMotion();
+  });
   root.querySelectorAll('[data-tg-enhanced]').forEach(el => { el.hidden = false; });
   root.dataset.ready = 'true';
   let previousWidth = 0;
