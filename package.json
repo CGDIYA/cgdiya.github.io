@@ -1,0 +1,33 @@
+{
+  "name": "personal-hexo-blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "使用 Hexo 与 Butterfly 构建的个人博客",
+  "scripts": {
+    "build": "node tools/prepare-assets.cjs && hexo clean && hexo generate",
+    "dev": "node tools/prepare-assets.cjs && hexo server --ip 127.0.0.1 --port 4000",
+    "new": "hexo new",
+    "clean": "hexo clean"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "hexo": {
+    "version": "8.1.2"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "7.3.1",
+    "hexo": "8.1.2",
+    "hexo-generator-archive": "2.0.0",
+    "hexo-generator-category": "2.0.0",
+    "hexo-generator-index": "4.0.0",
+    "hexo-generator-searchdb": "^1.5.0",
+    "hexo-generator-tag": "2.0.0",
+    "hexo-renderer-marked": "7.0.1",
+    "hexo-renderer-pug": "3.0.0",
+    "hexo-renderer-stylus": "3.0.1",
+    "hexo-server": "3.0.0",
+    "hexo-theme-butterfly": "5.7.0"
+  }
+}

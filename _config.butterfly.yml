@@ -1,0 +1,165 @@
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+  关于: /about/ || fas fa-user
+nav:
+  logo:
+  display_title: true
+  fixed: true
+avatar:
+  img: /img/avatar.svg
+  effect: false
+favicon: /img/favicon.svg
+disable_top_img: false
+index_img: /img/header.svg
+default_top_img: /img/header.svg
+archive_img: /img/header.svg
+tag_img: /img/header.svg
+category_img: /img/header.svg
+index_top_img_height: 46vh
+index_site_info_top: 42%
+subtitle:
+  enable: true
+  effect: false
+  sub:
+    - 把学到的，慢慢写下来。
+cover:
+  index_enable: true
+  aside_enable: true
+  archives_enable: true
+  position: both
+  default_cover:
+    - /img/cover-notes.svg
+    - /img/cover-code.svg
+index_post_content:
+  method: 2
+  length: 160
+post_meta:
+  page:
+    date_type: created
+    date_format: date
+    categories: true
+    tags: true
+    label: true
+  post:
+    position: left
+    date_type: both
+    date_format: date
+    categories: true
+    tags: true
+    label: true
+toc:
+  post: true
+  page: false
+  number: true
+  expand: false
+  style_simple: false
+post_copyright:
+  enable: true
+  decode: false
+  author_href:
+  license: CC BY-NC-SA 4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+  card_author:
+    enable: true
+    description: 记录技术与学习，也记录日常的小小发现。
+    button:
+      enable: true
+      icon: fas fa-paper-plane
+      text: 关于我
+      link: /about/
+  card_announcement:
+    enable: true
+    content: 欢迎来坐坐。这里刚刚开始，示例文章会逐步换成真实的学习记录。
+  card_recent_post:
+    enable: true
+    limit: 5
+    sort: date
+    sort_order:
+  card_categories:
+    enable: true
+    limit: 8
+    expand: none
+    sort_order:
+  card_tags:
+    enable: true
+    limit: 30
+    color: false
+    orderby: random
+    order: 1
+  card_archives:
+    enable: true
+    type: monthly
+    format: YYYY年MM月
+    order: -1
+    limit: 8
+  card_webinfo:
+    enable: true
+    post_count: true
+    last_push_date: true
+    runtime_date:
+search:
+  use: local_search
+  placeholder: 搜索文章
+  local_search:
+    preload: false
+    top_n_per_article: 1
+    unescape: false
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: 1
+  start: 6
+  end: 18
+theme_color:
+  enable: true
+  main: '#4b82c3'
+  paginator: '#4b82c3'
+  button_hover: '#376ca9'
+  text_selection: '#d7e9ff'
+  link_color: '#3875bd'
+  meta_color: '#858b95'
+  hr_color: '#d5e4f5'
+  code_foreground: '#e4eef9'
+  code_background: '#1f2937'
+  toc_color: '#4b82c3'
+  blockquote_padding_color: '#4b82c3'
+  blockquote_background_color: '#f1f6fc'
+  scrollbar_color: '#9bb5d3'
+  meta_theme_color_light: '#f6f8fc'
+  meta_theme_color_dark: '#171b24'
+footer:
+  owner:
+    enable: true
+    since: 2026
+  custom_text: 愿每一次记录，都成为下一次出发的起点。
+  copyright:
+    enable: true
+    version: true
+social:
+  fab fa-github: https://github.com/CGDIYA || GitHub || '#24292e'
+comments:
+  use:
+share:
+  use:
+busuanzi:
+  site_uv: false
+  site_pv: false
+  page_pv: false
+inject:
+  head:
+    - <link rel="stylesheet" href="/css/custom.css">
+  bottom:
+CDN:
+  internal_provider: local
+  third_party_provider: jsdelivr
+  option:
+    fontawesome: /vendor/fontawesome/css/all.min.css
