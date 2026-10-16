@@ -21,7 +21,7 @@ jobs:
       - name: 安装依赖
         run: pnpm install --frozen-lockfile
       - name: 构建静态网页
-        run: pnpm build
+        run: pnpm test:tags && pnpm build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
