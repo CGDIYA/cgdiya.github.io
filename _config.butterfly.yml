@@ -13,15 +13,15 @@ avatar:
   effect: false
 favicon: /img/favicon.svg
 disable_top_img: false
-index_img: /img/header.svg
+index_img: /img/home-city.jpg
 default_top_img: /img/header.svg
 archive_img: /img/header.svg
 tag_img: /img/header.svg
 category_img: /img/header.svg
-index_top_img_height: 46vh
-index_site_info_top: 42%
+index_top_img_height: 100vh
+index_site_info_top: 43%
 subtitle:
-  enable: true
+  enable: false
   effect: false
   sub:
     - 把学到的，慢慢写下来。

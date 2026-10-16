@@ -19,7 +19,30 @@ body { background: #f6f8fc; font-family: -apple-system, BlinkMacSystemFont, "Seg
 [data-theme="dark"] body, [data-theme="dark"] #web_bg { background: #171b24; }
 [data-theme="dark"] #footer { background: #1d2430; }
 [data-theme="dark"] #aside-content .card-info .author-info-description { color: #a5aebd; }
+#page-header.full_page {
+  height: 100vh;
+  height: 100svh;
+  background-position: center;
+}
+#page-header.full_page::before { background-color: rgba(0, 0, 0, .38); }
+#page-header.full_page #site-info { animation: home-title-enter 1s ease-out both; }
+#page-header.full_page #site-title {
+  letter-spacing: normal;
+  font-size: clamp(2rem, 3vw, 2.85rem);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .28);
+}
+#page-header.full_page #site_social_icons { display: none; }
+#page-header.full_page #scroll-down { bottom: max(16px, env(safe-area-inset-bottom)); }
+#page-header.full_page:not(.nav-fixed) #nav { backdrop-filter: none; }
+@keyframes home-title-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 @media (max-width: 768px) {
-  #page-header.full_page { height: 38vh !important; min-height: 250px; }
+  #page-header.full_page { background-attachment: scroll; }
   #site-title { font-size: 2.2rem !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #page-header.full_page #site-info,
+  #page-header.full_page .scroll-down-effects { animation: none; }
 }

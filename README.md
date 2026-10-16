@@ -67,7 +67,9 @@ GitHub Actions 自动构建并发布 `public/`。到仓库的 Actions 页面查�
 | 图片 | `source/img/` |
 | 额外样式 | `source/css/custom.css` |
 
-作者为 CGDIYA，头像位于 `source/img/avatar-cgdiya.jpg`。当前站名“我的博客”及两篇文章仍为可替换的占位或示例内容。
+站名和作者为 CGDIYA，头像位于 `source/img/avatar-cgdiya.jpg`。当前两篇文章仍为可替换的示例内容。
+
+首页采用全屏封面，点击底部箭头进入文章列表。封面存放在 `source/img/home-city.jpg`，来源为参考博客 https://blog.unbalancedcat.cn/ 当时展示的 Bing 壁纸；替换该文件即可更换封面。
 
 源码仓库是公开的，提交前检查文件内容。不要上传密码、密钥、订阅链接或其他私密配置。
 
